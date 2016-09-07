@@ -6,13 +6,13 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by AldoBalderrama on 9/6/2016.
  */
-public class SigninForm {
+public class SignInForm {
     private WebDriver driver;
     private By emailTextField;
     private By passwordTextField;
     private By nextSigninButton;
 
-    public SigninForm(WebDriver driver) {
+    public SignInForm(WebDriver driver) {
         this.driver = driver;
         emailTextField = By.id("credentials_username");
         passwordTextField = By.id("credentials_password");
@@ -33,5 +33,18 @@ public class SigninForm {
     public HomePage clickSigninButton(){
         driver.findElement(nextSigninButton).click();
         return new HomePage(driver);
+    }
+    public static HomePage loginAsPrimaryUser(){
+        final String userName = Environment.getInstance().getUserName();
+        final String password = Environment.getInstance().getPassword();
+        return loginAs(userName,password);
+    }
+    public static HomePage loginAs(String userName, String password){
+        WelcomePage welcomePage = new WelcomePage();
+        SignInForm signinForm = welcomePage.clickSigninLink();
+        signinForm.setEmailTextField(userName);
+        signinForm.clickNextButton();
+        signinForm.setPasswordTextField(password);
+        return signinForm.clickSigninButton();
     }
 }

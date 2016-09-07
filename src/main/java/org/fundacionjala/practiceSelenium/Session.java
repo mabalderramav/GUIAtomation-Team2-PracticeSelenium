@@ -1,14 +1,12 @@
 package org.fundacionjala.practiceSelenium;
 
-import org.junit.Test;
-
 /**
- * Test for {@link }
+ * Created by AldoBalderrama on 9/7/2016.
  */
-public class LoginTest {
-
-    @Test
-    public void test_login() {
+public class Session {
+    private HomePage homePage;
+    private static Session session;
+    private Session() {
         final String userName = Environment.getInstance().getUserName();
         final String password = Environment.getInstance().getPassword();
         WelcomePage welcomePage = new WelcomePage();
@@ -16,6 +14,17 @@ public class LoginTest {
         signinForm.setEmailTextField(userName);
         signinForm.clickNextButton();
         signinForm.setPasswordTextField(password);
-        HomePage homePage = signinForm.clickSigninButton();
+        homePage = signinForm.clickSigninButton();
+    }
+
+    public HomePage getHomePage() {
+        return homePage;
+    }
+
+    public static Session getInstance(){
+        if(session == null){
+            session = new Session();
+        }
+        return session;
     }
 }
